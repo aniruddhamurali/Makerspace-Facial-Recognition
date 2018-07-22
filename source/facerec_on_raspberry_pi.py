@@ -9,6 +9,7 @@ import face_recognition
 import picamera
 import numpy as np
 import glob
+from datetime import datetime
 
 # Get a list of all JEPG files in directory
 photos = glob.glob('*.jpg')
@@ -62,3 +63,8 @@ while True:
                 break
 
         print("I see someone named {}!".format(name))
+        if name != "Unknown Person":
+            with open('log.txt', 'a') as file:
+                dt = datetime.now().strftime('%Y-%m-%d %H:%M:%S').split(' ')
+                # dt[0] is date, dt[1] is time
+                file.write(dt[0] + ", " + dt[1] + ", " + name
