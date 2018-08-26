@@ -11,6 +11,7 @@ import numpy as np
 import glob
 from datetime import datetime
 
+
 # Get a list of all JEPG files in directory
 photos = glob.glob('*.jpg')
 
@@ -56,7 +57,9 @@ while True:
         # See if the face is a match for the known face(s)
         name = "Unknown Person"
         for image_encoding in image_encodings:
-            match = face_recognition.compare_faces([image_encoding[0]], face_encoding)
+            # Default tolerance is 0.6; change this to 0.5
+            # Lower tolerance means the comparison is more strict
+            match = face_recognition.compare_faces([image_encoding[0]], face_encoding, tolerance=0.5)
             
             if match[0]:
                 name = image_encoding[1]
@@ -67,4 +70,4 @@ while True:
             with open('log.txt', 'a') as file:
                 dt = datetime.now().strftime('%Y-%m-%d %H:%M:%S').split(' ')
                 # dt[0] is date, dt[1] is time
-                file.write(dt[0] + ", " + dt[1] + ", " + name
+                file.write(dt[0] + "\t" + dt[1] + "\t" + name + "\n")
